@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KnockoutJS : Using Binding in the view</title>
+    <link href="../CSS/KnockoutJS.css" rel="stylesheet" type="text/css" />
+    <script src="../JS/knockout-3.3.0.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>
+        Knockout makes it easier to create rich, responsive UIs with JavaScript</h1>
+    <h5>
+        observables - these are properties that automatically will issue notifications whenever
+        their value changes.</h5>
+    <p>
+        First name: <strong data-bind="text: firstName"></strong>
+    </p>
+    <p>
+        First name:
+        <input data-bind="value: firstName" class="kWidth-90" />
+    </p>
+    <p>
+        Last name: <strong data-bind="text: lastName"></strong>
+    </p>
+    <p>
+        Last name:<input data-bind="value: lastName" class="kWidth-90" />
+    </p>
+    <script type="text/javascript">
+        // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
+        function AppViewModel() {
+            this.firstName = "John (Non Observable)";
+            this.lastName = ko.observable("Sam (Observable)");
+        }
+
+        // Activates knockout.js
+        ko.applyBindings(new AppViewModel());
+    </script>
+</body>
+</html>
