@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KnockoutJS : Using Binding in the view</title>
+    <link href="../CSS/KnockoutJS.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/lib/knockout-3.3.0.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>
+        Knockout makes it easier to create rich, responsive UIs with JavaScript</h1>
+    <hr />
+    <h4>
+        Working with List and Collection : Updating Items</h4>
+    <br />
+    <strong>Example:</strong>
+    <h2>
+        Your seat reservations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Passenger name
+                </th>
+                <th>
+                    Meal
+                </th>
+                <th>
+                    Surcharge
+                </th>
+                <th>
+                    Surcharge Formatted
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <!-- Todo: Generate table body -->
+        <tbody data-bind="foreach: seats">
+            <tr>
+                <td>
+                    <input data-bind="value: name" />
+                </td>
+                <td>
+                    <select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'">
+                    </select>
+                </td>
+                <td data-bind="text: meal().price">
+                </td>
+                <td data-bind="text: formattedPrice">
+                </td>
+                <td>
+                    <a href="#" data-bind="click: $root.removeSeat">Remove</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button data-bind="click: addSeat">
+        Reserve another seat</button>
+    <script type="text/javascript">
+        // Class to represent a row in the seat reservations grid
+        function SeatReservation(name, initialMeal) {
+            var self = this;
+            self.name = name;
+            self.meal = ko.observable(initialMeal);
+
+            self.formattedPrice = ko.computed(function () {
+                var price = self.meal().price;
+                return price ? "$" + price.toFixed(2) : "None";
+            });
+        }
+
+        // Overall viewmodel for this screen, along with initial state
+        function ReservationsViewModel() {
+            var self = this;
+
+            // Non-editable catalog data - would come from the server
+            self.availableMeals = [
+        { mealName: "Standard (sandwich)", price: 0 },
+        { mealName: "Premium (lobster)", price: 34.95 },
+        { mealName: "Ultimate (whole zebra)", price: 290 }
+    ];
+
+            // Editable data
+            self.seats = ko.observableArray([
+        new SeatReservation("John", self.availableMeals[0]),
+        new SeatReservation("Laurence", self.availableMeals[1])
+    ]);
+
+            // Operations
+            self.addSeat = function () {
+                self.seats.push(new SeatReservation("New Person", self.availableMeals[0]));
+            };
+            self.removeSeat = function (seat) { self.seats.remove(seat); };
+        }
+
+        // Activates knockout.js
+        ko.applyBindings(new ReservationsViewModel());
+
+        
+     
+    </script>
+</body>
+</html>

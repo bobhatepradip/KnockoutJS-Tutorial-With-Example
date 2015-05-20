@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KnockoutJS : Using Binding in the view</title>
+    <link href="../CSS/KnockoutJS.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/lib/knockout-3.3.0.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>
+        Knockout makes it easier to create rich, responsive UIs with JavaScript</h1>
+    <hr />
+    <h4>
+        computed properties - these are observable (i.e., they notify on change) and they
+        are computed based on the values of other observables.</h4>
+    <br />
+    <strong>Example:</strong>
+    <p>
+        Full name: <strong data-bind="text: fullName"></strong>
+    </p>
+    <hr />
+    <p>
+        First name:
+        <input data-bind="value: firstName" class="kWidth-90" />
+    </p>
+    <p>
+        Last name:<input data-bind="value: lastName" class="kWidth-90" />
+    </p>
+
+    <button data-bind="click: capitalizeLastName">Capitalize last name</button>
+    <script type="text/javascript">
+        // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
+        function AppViewModel() {
+            this.firstName = ko.observable("John (Observable)");
+            this.lastName = ko.observable("Dodge (Observable)");
+
+            this.fullName = ko.computed(function () {
+                return this.firstName() + " " + this.lastName();
+            }, this);
+
+            this.capitalizeLastName = function () {
+                var currentVal = this.lastName();        // Read the current value
+                this.lastName(currentVal.toUpperCase()); // Write back a modified value
+            };
+        }
+
+        // Activates knockout.js
+        ko.applyBindings(new AppViewModel());
+    </script>
+</body>
+</html>

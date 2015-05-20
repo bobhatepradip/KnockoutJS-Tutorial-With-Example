@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transit/ional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KnockoutJS : Using Binding in the view</title>
+    <link href="../CSS/KnockoutJS.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/lib/knockout-3.3.0.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>
+        Knockout makes it easier to create rich, responsive UIs with JavaScript</h1>
+    <hr />
+    <h4>
+        CCB - Creating Custom Bindings : Animation</h4>
+    <br />
+    <strong>Example:</strong>
+    <h3 data-bind="text: question">
+    </h3>
+    <p>
+        Please distribute <b data-bind="text: pointsBudget"></b>points between the following
+        options.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Option
+                </th>
+                <th>
+                    Importance
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: answers">
+            <tr>
+                <td data-bind="text: answerText">
+                </td>
+                <td>
+                    <select data-bind="options: [1,2,3,4,5], value: points">
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 data-bind="visible: pointsUsed() > pointsBudget">
+        You've used too many points! Please remove some.</h3>
+    <p>
+        You've got <b data-bind="text: pointsBudget - pointsUsed()"></b>points left to use.</p>
+    <button data-bind="enable: pointsUsed() <= pointsBudget, click: save">
+        Finished</button>
+    <script type="text/javascript">
+        function Answer(text) { this.answerText = text; this.points = ko.observable(1); }
+
+        function SurveyViewModel(question, pointsBudget, answersAll) {
+            this.question = question;
+            this.pointsBudget = pointsBudget;
+            this.answers = $.map(answersAll, function (text) { return new Answer(text); });
+            this.save = function () { alert('To do'); };
+
+            this.pointsUsed = ko.computed(function () {
+                var total = 0;
+                for (var i = 0; i < this.answers.length; i++)
+                    total += this.answers[i].points();
+                return total;
+            }, this);
+        }
+
+        ko.applyBindings(new SurveyViewModel("Which factors affect your technology choices?", 10, [
+           "Functionality, compatibility, pricing - all that boring stuff",
+           "How often it is mentioned on Hacker News",
+           "Number of gradients/drop-shadows on project homepage",
+           "Totally believable testimonials on project homepage"
+        ]));
+
+       
+    </script>
+</body>
+</html>

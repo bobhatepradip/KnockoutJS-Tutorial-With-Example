@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KnockoutJS : Using Binding in the view</title>
+    <link href="../CSS/KnockoutJS.css" rel="stylesheet" type="text/css" />
+    <script src="../scripts/lib/knockout-3.3.0.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>
+        Knockout makes it easier to create rich, responsive UIs with JavaScript</h1>
+    <hr />
+<h4>
+        SPA - Single Page Application : Web Mail Client - How it works</h4>
+    <br />
+    <strong>Example:</strong>
+    <h2>
+        Your seat reservations :</h2>
+    <ul  class="folders"  data-bind="foreach: folders">
+        <li data-bind="text: $data, 
+               css: { selected: $data == $root.chosenFolderId() },
+               click: $root.goToFolder"></li>
+    </ul>
+    <script type="text/javascript">
+        function WebmailViewModel() {
+            // Data
+            var self = this;
+            self.folders = ['Inbox', 'Archive', 'Sent', 'Spam'];
+
+            self.chosenFolderId = ko.observable();
+
+            // Behaviours
+            self.goToFolder = function (folder) {
+                self.chosenFolderId(folder);
+               // $.get('/mail', { folder: folder }, self.chosenFolderData);
+            };
+        };
+
+        //Apply knockout binding
+        ko.applyBindings(new WebmailViewModel());
+    </script>
+</body>
+</html>
